@@ -153,17 +153,21 @@ Untuk meningkatkan performa model Collaborative Filtering, saya melakukan hyperp
    - **lr_all (Learning Rate)**: Mengontrol seberapa besar langkah yang diambil model untuk memperbaiki dirinya sendiri di setiap iterasi. Learning rate yang tepat membantu model menemukan solusi terbaik dengan lebih efisien.
    - **reg_all (Regularization Term)**: Berfungsi sebagai "rem" untuk mencegah model menjadi terlalu kompleks dan overfitting. Parameter ini memberikan pinalti pada nilai faktor yang terlalu besar, mendorong model untuk belajar pola yang lebih general.
 
-## Evaluation
-
-### Content-Based Filtering
+### Result
+**Result Content-Based Filtering**
 ![Result Content-Based Filtering](https://github.com/reonxp/Anime_Recommendation/blob/main/documentation/Result%20Content-Based%20Filtering.png?)
 
 Menampilkan output dari rekomendasi anime "Shigeki no Kyojin" dengan genre yang serupa. Menghasilkan output top 10 anime rekomendasi dengan genre yang sama.
 
-### Collaborative Filtering
+**Result Collaborative Filtering**
 ![Result Collaborative Filtering](https://github.com/reonxp/Anime_Recommendation/blob/main/documentation/Result%20Collaborative%20Filtering.png?)
 
 Menampilkan output 20 anime berdasarkan referensi dari user. Daftar anime ditampilkan dengan urut berdasarkan anime yang paling cocok untuk user.
+
+
+## Evaluation
+
+Pada tahap ini, dilakukan evaluasi kuantitatif terhadap model Collaborative Filtering untuk mengukur akurasi prediksinya. Metrik yang digunakan adalah RMSE (Root Mean Squared Error) dan MAE (Mean Absolute Error) untuk menilai seberapa dekat tebakan rating model dengan rating asli yang diberikan pengguna.
 
 ### Hasil Proyek Berdasarkan Metrik Evaluasi  
 
