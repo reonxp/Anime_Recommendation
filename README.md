@@ -43,24 +43,24 @@ Tujuan dari analisis ini adalah:
 Untuk meraih tujuan pengembangan sistem rekomendasi yang efektif, beberapa solusi yang diusulkan adalah: 
 - **Menggunakan Dua Algoritma**: Pada tahap ini, dua pendekatan utama yang digunakan untuk membangun sistem rekomendasi adalah Collaborative Filtering dan Content-Based Filtering. Untuk masing-masing metode ini, beberapa algoritma diterapkan untuk mengevaluasi model mana yang memberikan hasil terbaik dalam memberikan rekomendasi anime kepada pengguna.
 
-      - **Content-Based Filtering**: Menggunakan Cosine Similarity dan TF-IDF Vectorizer untuk menghitung kemiripan antara anime berdasarkan fitur seperti genre, tipe, dan rating. Metode ini berguna terutama bagi pengguna dengan preferensi yang lebih eksplisit terkait genre atau tipe anime yang mereka sukai.
+   **Content-Based Filtering**: Menggunakan Cosine Similarity dan TF-IDF Vectorizer untuk menghitung kemiripan antara anime berdasarkan fitur seperti genre, tipe, dan rating. Metode ini berguna terutama bagi pengguna dengan preferensi yang lebih eksplisit terkait genre atau tipe anime yang mereka sukai.
 
-      - **Collaborative Filtering**: Menggunakan algoritma Singular Value Decomposition (SVD) untuk mencari pola di antara pengguna berdasarkan rating mereka terhadap anime. Dengan demikian, sistem ini dapat menyarankan anime berdasarkan kesamaan preferensi antar pengguna.
+   **Collaborative Filtering**: Menggunakan algoritma Singular Value Decomposition (SVD) untuk mencari pola di antara pengguna berdasarkan rating mereka terhadap anime. Dengan demikian, sistem ini dapat menyarankan anime berdasarkan kesamaan preferensi antar pengguna.
 
 - **Hyperparameter Tuning**: Untuk meningkatkan performa model dan memastikan akurasi serta ketahanan sistem rekomendasi, hyperparameter tuning dilakukan pada algoritma SVD. Proses tuning ini menggunakan teknik Grid Search untuk menemukan kombinasi parameter yang optimal. 
 
 - **Evaluasi dengan Metrik**: Untuk menilai kinerja sistem rekomendasi, saya menggunakan beberapa metrik evaluasi yang relevan, seperti Root Mean Squared Error (RMSE) dan Mean Squared Error (MSE). Metrik ini digunakan untuk mengukur seberapa baik model dapat memprediksi rating yang diberikan oleh pengguna terhadap anime yang belum mereka tonton.
 
-      - **RMSE**  : Metrik ini mengukur seberapa besar kesalahan antara prediksi dan nilai yang sebenarnya. Semakin kecil nilai RMSE, semakin baik model dalam memberikan rekomendasi yang akurat.
-      - **MSE**   : Metrik ini digunakan untuk mengukur rata-rata kesalahan kuadrat antara prediksi dan nilai sebenarnya. Nilai MSE yang rendah menunjukkan performa model yang lebih baik.
+   **RMSE**  : Metrik ini mengukur seberapa besar kesalahan antara prediksi dan nilai yang sebenarnya. Semakin kecil nilai RMSE, semakin baik model dalam memberikan rekomendasi yang akurat.
+   **MSE**   : Metrik ini digunakan untuk mengukur rata-rata kesalahan kuadrat antara prediksi dan nilai sebenarnya. Nilai MSE yang rendah menunjukkan performa model yang lebih baik.
 
 Dengan menggunakan metode evaluasi yang tepat dan pengoptimalan parameter, diharapkan model yang dikembangkan dapat memberikan rekomendasi yang lebih tepat dan relevan, meningkatkan pengalaman pengguna secara keseluruhan.
 
 ## Data Understanding
 
-Dataset yang digunakan berasal dari Anime Dataset di Kaggle dan terdiri dari 891 baris dengan 12 kolom. Sumber data dapat diunduh dari [Anime Recommendation Dataset](https://www.kaggle.com/datasets/CooperUnion/anime-recommendations-database).
+Dataset yang digunakan berasal dari Anime Dataset di Kaggle dan terdiri dari 2 dataset. Dataset anime.csv memiliki 12.294 baris dengan 7 kolom, dan dataset rating.csv memiliki 7.813.737 baris dengan 3 kolom. Sumber data dapat diunduh dari [Anime Recommendation Dataset](https://www.kaggle.com/datasets/CooperUnion/anime-recommendations-database).
 
-Selanjutnya uraikanlah seluruh variabel atau fitur pada data. Sebagai contoh:  
+Selanjutnya berikut adalah variable atau fitur dalam dataset tersebut:  
 
 ### Variabel-variabel pada Anime dataset adalah sebagai berikut:
 
@@ -129,8 +129,8 @@ Pada tahap ini, saya menerapkan dua algoritma machine learning untuk membangun d
 ### Collaborative Filtering  
 
   - Tahapan: Mengambil data rating dengan mengecualikan value -1 karena dapat dianggap bahwa user pernah menonton animenya, tetapi tidak memberikan rating. Selanjutnya mengambil sample data sebanyak 500.000 dari 6.337.240 data, untuk efisiensi dalam pemrosesan. Karena kalau menggunakan data asli, Pemrosesan akan memakan waktu yang sangat lama. Setelah melalui proses pengambilan sample, selanjutnya adalah mengubah data ke format surprise agar data dapat diproses menggunakan library surprise. Tahap selanjutnya adalah splitting data dan training data dengan parameter umum. Kemudian melakukan Hyperparameter tuning untuk mendapatkan parameter yang cocok dengan struktur data, kemudian training ulang model menggunakan parameter terbaik. Pada tahap terakhir adalah membuat sistem rekomendasi berbasis Collaborative-Filtering dengan beberapa fungsi untuk memaksimalkan model memberikan rekomendasi.
-  - Efektif dalam menangani dataset besar dan memberikan rekomendasi berdasarkan pola tersembunyi dalam data.
-  - Kekurangan: Tidak efisien untuk dataset besar dan sensitif terhadap data noise.
+  - Kelebihan: Mampu memberikan rekomendasi yang unik untuk setiap pengguna berdasarkan riwayat rating mereka, bukan hanya berdasarkan kemiripan konten.
+  - Kekurangan: Sangat sulit memberikan rekomendasi untuk pengguna baru (yang belum punya riwayat rating) atau merekomendasikan anime baru (yang belum ada yang memberi rating).
   - Parameter yang digunakan: (n_factors=100, n_epochs=20, random_state=42)
 
 ### Proses Improvement dengan Hyperparameter Tuning  
@@ -142,10 +142,10 @@ Untuk meningkatkan performa model Collaborative Filtering, saya melakukan hyperp
 3. Memilih kombinasi parameter yang memberikan skor error (RMSE) rata-rata terendah. 
 
 **Parameter Yang Digunakan Pada Hyperparameter Tuning**
-   ``` "n_factors": [50, 100, 150],```
-   ``` "n_epochs": [20, 30],```
-   ``` "lr_all": [0.005, 0.01],```
-   ``` "reg_all": [0.02, 0.1]```
+   ```"n_factors": [50, 100, 150],```
+   ```"n_epochs": [20, 30],```
+   ```"lr_all": [0.005, 0.01],```
+   ```"reg_all": [0.02, 0.1]```
 
 **Alasan Menggunakan Parameter Tersebut**
    - **n_factors**: Menentukan jumlah faktor laten yang akan dipelajari oleh model. Faktor-faktor ini adalah "sifat" tersembunyi yang ditangkap oleh model dari data rating, misalnya bisa merepresentasikan konsep abstrak seperti "anime dengan cerita kelam" atau "cocok untuk penggemar mecha". Menguji beberapa nilai membantu menemukan kompleksitas model yang pas.
@@ -155,58 +155,67 @@ Untuk meningkatkan performa model Collaborative Filtering, saya melakukan hyperp
 
 ## Evaluation
 
+### Content-Based Filtering
+![Result Content-Based Filtering](https://github.com/reonxp/Anime_Recommendation/blob/main/documentation/Result%20Content-Based%20Filtering.png?)
+
+Menampilkan output dari rekomendasi anime "Shigeki no Kyojin" dengan genre yang serupa. Menghasilkan output top 10 anime rekomendasi dengan genre yang sama.
+
+### Collaborative Filtering
+![Result Collaborative Filtering](https://github.com/reonxp/Anime_Recommendation/blob/main/documentation/Result%20Collaborative%20Filtering.png?)
+
+Menampilkan output 20 anime berdasarkan referensi dari user. Daftar anime ditampilkan dengan urut berdasarkan anime yang paling cocok untuk user.
 
 ### Hasil Proyek Berdasarkan Metrik Evaluasi  
 
-Setelah menguji model Random Forest yang terpilih, hasil metrik evaluasi adalah sebagai berikut:  
-**Class 0 (Tidak Selamat)**
-   - **Precision**: 84%  
-   - **Recall**: 91%  
-   - **F1 Score**: 88%
-**Class 1 (Selamat)**
-   - **Precision**: 86%  
-   - **Recall**: 76%  
-   - **F1 Score**: 81%
-**Overall**
-   - **Accuracy**: 85%
-   - **Precision**: 85%  
-   - **Recall**: 84%  
-   - **F1 Score**: 84%
+Evaluasi kuantitatif dilakukan pada model Collaborative Filtering (SVD) untuk mengukur seberapa akurat model dalam memprediksi rating yang akan diberikan oleh pengguna. Metrik utama yang digunakan adalah:
 
-Hasil evaluasi model Random Forest menunjukkan performa yang memuaskan dengan akurasi mencapai 85%. Model ini berhasil mencapai precision sebesar 85%, yang menandakan tingkat ketepatan prediksi positif yang baik. Selain itu, dengan recall sebesar 84%, model ini efektif dalam mendeteksi kasus positif, mengurangi jumlah false negatives. F1 Score yang diperoleh adalah 84%, yang mencerminkan keseimbangan yang baik antara precision dan recall, menunjukkan bahwa model ini mampu menangani klasifikasi dengan baik.
+- **RMSE (Root Mean Squared Error)**: Mengukur rata-rata besarnya kesalahan prediksi, dengan memberikan bobot lebih besar pada kesalahan yang nilainya jauh. Semakin kecil nilainya, semakin baik.
+- **MAE (Mean Absolute Error)**: Mengukur rata-rata absolut dari selisih antara rating prediksi dan rating aktual. Metrik ini lebih mudah diinterpretasikan secara langsung.
+
+Setelah melalui proses hyperparameter tuning menggunakan GridSearchCV dengan 3-fold cross-validation, didapatkan hasil performa terbaik sebagai berikut:
+
+| Metrik Evaluasi                  | Skor Terbaik |
+| :------------------------------- | :----------- |
+| RMSE (Root Mean Squared Error)   | 1.2855       |
+| MAE (Mean Absolute Error)        | 1.0078       |
+
+Hasil evaluasi ini menunjukkan bahwa model Collaborative Filtering yang telah dioptimalkan memiliki performa yang solid. Skor RMSE sebesar 1.2855 pada skala rating 1-10 menandakan bahwa secara rata-rata, prediksi rating yang dihasilkan model memiliki selisih sekitar 1.29 poin dari rating yang sebenarnya akan diberikan oleh pengguna.
 
 ### Hasil Analisis Terhadap Peryataan Masalah
 
 **Pernyataan Masalah 1**:
-*Bagaimana kita dapat memprediksi kelangsungan hidup penumpang di Titanic berdasarkan fitur-fitur yang ada seperti usia, jenis kelamin, dan kelas tiket?*
+*Bagaimana membangun sistem rekomendasi yang mampu memberikan saran anime berdasarkan rating pengguna dan genre yang mereka sukai?*
 
-Analisis menggunakan Random Forest Classifier menunjukkan bahwa model dapat memprediksi kelangsungan hidup penumpang dengan cukup baik. Berdasarkan confusion matrix yang ditampilkan, model berhasil mengklasifikasikan 94 penumpang yang tidak selamat dan 50 penumpang yang selamat, dengan beberapa kesalahan pada prediksi, yaitu 11 yang selamat diklasifikasikan sebagai tidak selamat, dan 24 yang tidak selamat diklasifikasikan sebagai selamat. Ini menunjukkan bahwa model memiliki akurasi yang memadai.
+Untuk menjawab pernyataan ini, proyek ini mengimplementasikan dua pendekatan model yang berbeda untuk menangani kedua aspek permintaan tersebut secara terpisah:
+
+Untuk aspek **"genre yang mereka sukai"**, diimplementasikan model **Content-Based Filtering**. Model ini bekerja dengan cara:
+- Menganalisis dan menormalisasi data genre dari setiap anime.
+- Menggunakan TfidfVectorizer untuk mengubah data teks genre menjadi representasi vektor numerik.
+- Menghitung Cosine Similarity untuk membangun matriks kemiripan antar semua anime berdasarkan kesamaan genre mereka.
+- Hasilnya adalah sebuah sistem yang mampu merekomendasikan anime dengan tema atau konten yang serupa secara efektif.
+
+Untuk aspek **"rating pengguna"**, diimplementasikan model **Collaborative Filtering**. Model ini bekerja dengan cara:
+- Menganalisis data historis rating dari seluruh pengguna.
+- Menggunakan algoritma SVD (Singular Value Decomposition) untuk mempelajari pola selera tersembunyi (latent factors) dari setiap pengguna dan anime.
+- Model kemudian memprediksi rating yang mungkin diberikan seorang pengguna untuk anime yang belum ia tonton, menghasilkan rekomendasi yang sifatnya personal.
 
 **Pernyataan Masalah 2**:
-*Apa saja variabel yang paling berpengaruh terhadap hasil prediksi apakah seorang penumpang selamat atau tidak?*
+*Apa yang dapat kita pelajari dari data rating pengguna untuk mengoptimalkan rekomendasi yang diberikan oleh sistem?*
 
-Berdasarkan grafik Feature Importance, variabel yang paling berpengaruh pada hasil prediksi adalah:
-   - **Sex_male (Jenis Kelamin)**: Jenis kelamin pria memiliki dampak paling signifikan terhadap kemungkinan selamat.
-   - **Fare (Tarif)**: Tariff yang dibayarkan untuk tiket juga berkontribusi penting, menunjukkan bahwa status sosial-ekonomi penumpang berperan dalam kelangsungan hidup.
-   - **Age (Umur)**: Usia penumpang menunjukkan hubungan dengan probabilitas selamat, dengan penumpang yang lebih muda cenderung memiliki peluang lebih baik.
-   - **Pclass (kelas tiket)**: kelas 3 menunjukkan keberadaan penumpang yang lebih tinggi dalam kelompok yang tidak selamat. Hal ini menunjukkan bahwa kelas tiket berpengaruh kuat dalam peluang selamat atau tidak selamat.
+Analisis dan pembangunan model Collaborative Filtering memberikan beberapa wawasan kunci untuk proses optimasi:
 
-   Variabel-variabel lain seperti jumlah saudara/saudari, dan tempat keberangkatan juga memiliki kontribusi, tetapi tidak sekuat yang disebutkan di atas.
+**Pentingnya Data Rating yang Eksplisit**: Pembelajaran pertama adalah bahwa tidak semua data rating dapat langsung digunakan. Data dengan nilai rating = -1 (yang berarti "ditonton tanpa skor") harus dibersihkan terlebih dahulu. Algoritma seperti SVD memerlukan skor numerik yang jelas (1-10) untuk dapat belajar secara akurat. Tanpa pembersihan ini, pemahaman model terhadap preferensi pengguna akan terdistorsi.
 
-**Pernyataan Masalah 3**:
-*Apakah terdapat perbedaan signifikan dalam kelangsungan hidup berdasarkan karakteristik demografis (seperti jenis kelamin dan usia) dan status sosial-ekonomi (kelas tiket)?*
+**Kebutuhan Hyperparameter Tuning**: Model dengan parameter default memberikan hasil yang cukup baik (RMSE ~1.31), namun belum optimal. Melalui proses Hyperparameter Tuning menggunakan ```GridSearchCV```, kita belajar bahwa penyesuaian parameter seperti ```n_factors```, ```n_epochs```, dan ```lr_all``` sangat krusial. Proses ini berhasil menurunkan error prediksi model ke RMSE ~1.28, membuktikan bahwa tuning adalah langkah esensial untuk optimasi akurasi.
 
-Berdasarkan grafik kelangsungan hidup berdasarkan usia, kelas tiket dan jenis kelamin:
+**Adanya Popularity Bias**: Salah satu pelajaran terpenting adalah bahwa akurasi metrik (RMSE rendah) tidak selalu menjamin pengalaman pengguna yang baik. Ditemukan bahwa model yang telah dioptimalkan sekalipun memiliki kecenderungan kuat untuk merekomendasikan anime yang sangat populer secara universal kepada banyak pengguna yang berbeda. Hal ini mengajarkan kita bahwa untuk mengoptimalkan rekomendasi lebih lanjut, teknik diversifikasi (seperti random sampling dari kandidat teratas) perlu dipertimbangkan untuk menyeimbangkan antara akurasi dan variasi hasil.
 
-**Age (Usia)**: Dari grafik distribusi usia berdasarkan Boxplot, terdapat perbedaan yang mencolok antara penumpang yang selamat dan tidak selamat. Penumpang yang selamat cenderung lebih muda (median usia lebih rendah).
-
-**Pclass (Kelas Tiket)**: Penumpang di kelas 3 mempunyai jumlah yang lebih tinggi dalam kategori tidak selamat dibandingkan penumpang di kelas 1 dan 2. Ini menegaskan bahwa status sosial-ekonomi memberikan dampak signifikan terhadap kelangsungan hidup.
-
-**Sex (Jenis Kelamin)**: Grafik menunjukkan bahwa wanita memiliki tingkat kelangsungan hidup yang lebih tinggi dibandingkan pria, dimana lebih banyak wanita yang selamat dari tragedi tersebut.
 
 ### Kesimpulan
 
-Analisis ini menegaskan bahwa model berfungsi cukup baik dalam memprediksi kelangsungan hidup penumpang Titanic dan menyoroti pentingnya fitur-fitur demografis dan sosial-ekonomi. Variabel seperti jenis kelamin, usia, dan kelas tiket terbukti memiliki pengaruh signifikan terhadap hasil prediksi, dengan wawasan penting yang dapat digunakan dalam konteks lebih luas untuk memahami dampak kondisi sosial dan demografi pada kejadian serupa di masa mendatang.
+Analisis dan pengembangan dalam proyek ini menegaskan bahwa kedua model, **Content-Based Filtering** dan **Collaborative Filtering**, berhasil diimplementasikan dan berfungsi dengan baik untuk tujuan masing-masing dalam memberikan rekomendasi anime. Proyek ini menyoroti pentingnya pemilihan pendekatan berdasarkan kebutuhan dan data yang tersedia.
+
+**Model Content-Based Filtering** terbukti efektif dalam merekomendasikan item berdasarkan kemiripan fitur, dengan kualitas metadata genre sebagai faktor penentu utamanya. Di sisi lain, **model Collaborative Filtering**, setelah melalui proses hyperparameter tuning yang sistematis dan mencapai skor RMSE 1.2849, menunjukkan kapabilitasnya dalam menghasilkan rekomendasi yang dipersonalisasi dengan menganalisis pola interaksi pengguna. Faktor-faktor seperti kualitas data rating dan konfigurasi hyperparameter terbukti memiliki pengaruh signifikan terhadap akurasi prediksinya.
 
 **---Ini adalah bagian akhir laporan---**
 
