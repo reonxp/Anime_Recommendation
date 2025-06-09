@@ -185,7 +185,7 @@ Setelah melalui proses hyperparameter tuning menggunakan GridSearchCV dengan 3-f
 
 Hasil evaluasi ini menunjukkan bahwa model Collaborative Filtering yang telah dioptimalkan memiliki performa yang solid. Skor RMSE sebesar 1.2855 pada skala rating 1-10 menandakan bahwa secara rata-rata, prediksi rating yang dihasilkan model memiliki selisih sekitar 1.29 poin dari rating yang sebenarnya akan diberikan oleh pengguna.
 
-### Hasil Analisis Terhadap Peryataan Masalah
+### Hasil Analisis Terhadap Pernyataan Masalah
 
 **Pernyataan Masalah 1**:
 *Bagaimana membangun sistem rekomendasi yang mampu memberikan saran anime berdasarkan rating pengguna dan genre yang mereka sukai?*
