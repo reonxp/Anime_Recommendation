@@ -157,7 +157,7 @@ Untuk meningkatkan performa model Collaborative Filtering, saya melakukan hyperp
 **Result Content-Based Filtering**
 ![Result Content-Based Filtering](https://github.com/reonxp/Anime_Recommendation/blob/main/documentation/Result%20Content-Based%20Filtering.png?)
 
-Menampilkan output dari rekomendasi anime "Shigeki no Kyojin" dengan genre yang serupa. Menghasilkan output top 10 anime rekomendasi dengan genre yang sama.
+Menampilkan output dari rekomendasi anime "Shingeki no Kyojin" dengan genre yang serupa. Menghasilkan output top 10 anime rekomendasi dengan genre yang sama.
 
 **Result Collaborative Filtering**
 ![Result Collaborative Filtering](https://github.com/reonxp/Anime_Recommendation/blob/main/documentation/Result%20Collaborative%20Filtering.png?)
