@@ -195,7 +195,7 @@ Menampilkan output 20 anime berdasarkan referensi dari user. Daftar anime ditamp
 
 ## Evaluation
 
-Pada tahap ini, dilakukan evaluasi kuantitatif terhadap model Collaborative Filtering untuk mengukur akurasi prediksinya. Metrik yang digunakan adalah RMSE (Root Mean Squared Error) dan MAE (Mean Absolute Error) untuk menilai seberapa dekat tebakan rating model dengan rating asli yang diberikan pengguna.
+Pada tahap ini, dilakukan evaluasi kuantitatif terhadap model Collaborative Filtering dan Content-Based Filtering untuk mengukur akurasi dan efektivitas prediksi masing-masing model. Untuk evaluasi model Contet-Based Filtering menggunakan metrik ```Precision@K```, ```Recall@K```, dan ```F1-score@K```  . Dan untuk model Collaborative Filtering, metrik yang digunakan adalah ```RMSE (Root Mean Squared Error)``` dan MAE ```(Mean Absolute Error)``` untuk menilai seberapa dekat tebakan rating model dengan rating asli yang diberikan pengguna
 
 ### Hasil Proyek Berdasarkan Metrik Evaluasi  
 
