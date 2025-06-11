@@ -185,12 +185,12 @@ Untuk meningkatkan performa model Collaborative Filtering, saya melakukan hyperp
 **Result Content-Based Filtering**
 ![Result Content-Based Filtering](https://github.com/user-attachments/assets/727008a1-823e-4624-9672-72b8ceaf01b9)
 
-Menampilkan output dari rekomendasi anime "Shingeki no Kyojin" dengan genre yang serupa. Menghasilkan output top 10 anime rekomendasi dengan genre yang sama.
+Menampilkan output dari rekomendasi anime "Shingeki no Kyojin" dengan genre yang serupa. Menghasilkan output top 10 anime rekomendasi dengan genre yang sama. Terlihat bahwa anime dengan judul "Saint Seiya: Meiou Hades Elysion-Hen" berada di puncak tabel dikarenakan genre dari anime tersebut sangat sesuai dengan genre yang user masukkan yaitu "Shingeki no Kyojin"
 
 **Result Collaborative Filtering**
 ![Result Collaborative Filtering](https://github.com/user-attachments/assets/d04f92b2-ccce-4b48-a320-710389cd970d)
 
-Menampilkan output 20 anime berdasarkan referensi dari user. Daftar anime ditampilkan dengan urut berdasarkan anime yang paling cocok untuk user.
+Menampilkan output 20 anime berdasarkan referensi dari user. Daftar anime ditampilkan dengan urut berdasarkan anime yang paling cocok untuk user. Terlihat bahwa anime dengan judul "Ginga Eiyuu Densetsu" berada di puncak tabel, yang menandakan bahwa anime tersebut sangat cocok untuk direkomendasikan kepada user 512 berdasarkan referensi user, dengan predicted  rating 10.0. Disusul dengan anime lainnya dengan predicted rating menurun sehingga menghasilkan rekomendasi anime yang paling sesuai dengan referensi user.
 
 
 ## Evaluation
