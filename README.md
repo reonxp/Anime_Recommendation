@@ -96,9 +96,9 @@ sedangkat pada dataset **anime.csv** tidak ada value yang terduplikat.
 
 **Rubrik/Kriteria Tambahan (Opsional)**:
 Dalam melakukan pemahaman data, beberapa teknik visualisasi data dan exploratory data analysis (EDA) dilakukan, antara lain:  
-- **Visualisasi Distribusi Rating**: Membuat histogram untuk memahami distribusi rating pada dataset anime.  
-- **Visualisasi 10 Genre Anime Terpopuler**: Menggunakan grafik batang untuk membandingkan genre apa yang paling populer diantara genre lainnya.
-- **Visualisasi 10 Top anime dengan rating tertinggi**: Menggunakan grafik batang untuk membandingkan anime apa yang memiliki rating tertinggi.
+- **Visualisasi Distribusi Rating**: Membuat histogram untuk memahami distribusi rating pada dataset anime. Menampilkan distribusi rating dari dataset. Dari histogram, terlihat bahwa mayoritas anime mendapatkan rating sekitar 6, dengan frekuensi yang menurun pada rating yang lebih tinggi atau lebih rendah. Ini mengindikasikan bahwa rating cenderung berkumpul di sekitar nilai rata-rata, menurunkan proporsi anime dengan rating ekstrem. Area di bawah kurva menunjukkan frekuensi rating, sedangkan garis di atas histogram adalah kurva distribusi yang menunjukkan bagaimana rating tersebar.
+- **Visualisasi 10 Genre Anime Terpopuler**: Menggunakan grafik batang untuk membandingkan genre apa yang paling populer diantara genre lainnya. Pada visualisasi distribusi tersebut menunjukkan top 10 jumlah anime berdasarkan genre terpopuler. Terlihat bahwa anime dengan genre Hentai menjadi anime yang paling banyak di dataset ini, disusul dengan genre lainnya, seperti Comedy, Music, Kids dan seterusnya. Hal ini mencermikan bahwa dalam dataset ini mengandung anime dari berbagai genre. Hal ini sangat penting untuk pondasi Content-Based Filtering sistem rekomendasi kita yang mengambil data referensi dari genre.
+- **Visualisasi 10 Top anime dengan rating tertinggi**: Menggunakan grafik batang untuk membandingkan anime apa yang memiliki rating tertinggi. Pada visualisasi ini menampilkan distribusi top 10 anime dengan rating paling tinggi. Terlihat bahwa anime dengan judul "Taka no Tsume 8: Yoshida-kun no X-Files" memiliki rating yang sempurna yaitu 10 dari skala 1-10. Dengan melakukan visualisasi anime apa yang memiliki rating tertinggi dan dapat memberikan pandangan tentang sistem rekomendasi dengan algoritma Collaborative Filtering yang berdasarkan rekomendasi melalui pemberian rating.
 
 ## Data Preparation
 
@@ -159,7 +159,7 @@ Pada tahap ini, saya menerapkan dua algoritma machine learning untuk membangun d
   - Tahapan: melatih model rekomendasi menggunakan SVD dari Surprise, lalu melakukan prediksi pada data testing dan menghitung metrik RMSE dan MAE untuk evaluasi. Selanjutnya, kode mendefinisikan fungsi rekomendasi yang mengidentifikasi anime yang belum ditonton, melakukan prediksi rating, dan mengembalikan daftar rekomendasi. Kode kemudian meminta input ```user_id```, memanggil fungsi rekomendasi, dan menampilkan hasil dalam format tabel.
   - Kelebihan: Mampu memberikan rekomendasi yang unik untuk setiap pengguna berdasarkan riwayat rating mereka, bukan hanya berdasarkan kemiripan konten.
   - Kekurangan: Sangat sulit memberikan rekomendasi untuk pengguna baru (yang belum punya riwayat rating) atau merekomendasikan anime baru (yang belum ada yang memberi rating).
-  - Parameter yang digunakan: ```n_factors=100```, ```n_epochs=20```, ```random_state=42``
+  - Parameter yang digunakan: ```n_factors=100```, ```n_epochs=20```, ```random_state=42```
 
 ### Proses Improvement dengan Hyperparameter Tuning  
 
