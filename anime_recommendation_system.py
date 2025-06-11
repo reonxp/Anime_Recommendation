@@ -24,6 +24,7 @@ import re
 import random
 from tabulate import tabulate
 from nltk.corpus import stopwords
+from tqdm.notebook import tqdm
 
 from surprise import Reader, Dataset, SVD, accuracy
 from surprise.model_selection import train_test_split, GridSearchCV
@@ -81,8 +82,7 @@ plt.show()
 
 """
 
-> Menampilkan distribusi rating dari dataset.
-
+> Menampilkan distribusi rating dari dataset. Dari histogram, terlihat bahwa mayoritas anime mendapatkan rating sekitar 6, dengan frekuensi yang menurun pada rating yang lebih tinggi atau lebih rendah. Ini mengindikasikan bahwa rating cenderung berkumpul di sekitar nilai rata-rata, menurunkan proporsi anime dengan rating ekstrem. Area di bawah kurva menunjukkan frekuensi rating, sedangkan garis di atas histogram adalah kurva distribusi yang menunjukkan bagaimana rating tersebar.
 """
 
 # Menampilkan plot distribusi dari fitur genre
@@ -108,9 +108,7 @@ plt.show()
 
 """
 
-> Menampilkan top 10 genre terpopuler.
-
-"""
+> Pada visualisasi distribusi tersebut menunjukkan top 10 jumlah anime berdasarkan genre terpopuler. Terlihat bahwa anime dengan genre Hentai menjadi anime yang paling banyak di dataset ini, disusul dengan genre lainnya, seperti Comedy, Music, Kids dan seterusnya. Hal ini mencermikan bahwa dalam dataset ini mengandung anime dari berbagai genre."""
 
 # Menampilkan plot distribusi dari 10 anime dengan rating terbanyak
 
@@ -128,7 +126,7 @@ plt.ylim(9, 10)
 plt.tight_layout()
 plt.show()
 
-"""> Menampilkan distribusi top 10 anime dengan rating paling banyak.
+"""> Pada visualisasi ini menampilkan distribusi top 10 anime dengan rating paling tinggi. Terlihat bahwa anime dengan judul "Taka no Tsume 8: Yoshida-kun no X-Files" memiliki rating yang sempurna yaitu 10 dari skala 1-10. Dengan melakukan visualisasi anime apa yang memiliki rating tertinggi dapat memberikan pandangan tentang sistem rekomendasi berdasarkan referensi user.
 
 ## **Data Preparation**
 """
@@ -169,7 +167,7 @@ print(anime_droped.info())
 
 """
 
-> Menghapus variable yang tidak relevan untuk digunakan modeling.
+> Menghapus variable yang tidak relevan untuk digunakan modeling. Disini kita menghapus type dan episodes, yang tidak akan akan berguna untuk model rekomendasi yang kita gunakan.
 
 """
 
@@ -203,7 +201,7 @@ print(f"\nTotal data setelah drop duplicates: {total_data_after_drop_duplicates}
 
 """
 
-> Menghapus data duplikat untuk meningkatkan performa akurasi.
+> Menghapus data duplikat dengan metode drop pada rating.csv untuk menjaga kualitas dataset.
 
 """
 
@@ -264,8 +262,7 @@ print(anime_filtered[['name', 'genre', 'genre_normalized']].head())
 
 """
 
-> Melakukan normalisasi pada variable genre untuk memudahkan pemrosesan TF-IDF Vectorizer.
-"""
+> Melakukan normalisasi pada variable genre untuk memudahkan pemrosesan TF-IDF Vectorizer. Berfungsi untuk membersihkan dan menyatukan genre anime dalam satu string yang rapi. Normalisasi genre ini penting untuk memastikan representasi yang konsisten dan terstruktur, yang akan membantu dalam pemrosesan selanjutnya."""
 
 # Vectorisasi TF-IDF
 
@@ -282,7 +279,7 @@ print("Shape dari TF-IDF matrix:", tfidf_matrix.shape)
 
 """
 
-> Mengubah genre menjadi matriks untuk perhitungan cosine similarity.
+> Melakukan vectorisasi teks menggunakan TF-IDF untuk mengubah deskripsi genre anime menjadi matriks angka yang dapat diproses oleh model machine learning. Matriks TF-IDF yang dihasilkan akan digunakan sebagai fitur input untuk model machine learning selanjutnya
 
 """
 
@@ -297,7 +294,7 @@ print("Shape of the similarity matrix:", cosine_sim.shape)
 
 """
 
-> Menghitung kemiripan genre dengan matriks yang sudah dibuat oleh TF-IDF Vectorizer.
+> Menghitung kemiripan genre dengan matriks yang sudah dibuat oleh TF-IDF Vectorizer. Dengan memiliki matriks kesamaan cosinus, sistem rekomendasi dapat menerapkan strategi rekomendasi berbasis konten yang lebih canggih untuk memberikan rekomendasi yang relevan bagi pengguna.
 
 """
 
@@ -350,7 +347,7 @@ def get_recommendations(title, cosine_sim_matrix=cosine_sim, index_map=indices):
 
 """
 
-> Membuat fungsi rekomendasi dengan beberapa fungsi. Fungsi utamanya adalah mengubah inputan supaya tidak *case sensitive*, membuat filter agar anime yang diinputkan oleh user tidak tampil di rekomendasi, dan tidak menghasilkan anime dengan nama franchise yang sama.
+> Membuat fungsi rekomendasi dengan beberapa fungsi. Fungsi utamanya adalah mengubah inputan supaya tidak *case sensitive*, membuat filter agar anime yang diinputkan oleh user tidak tampil di rekomendasi, dan tidak menghasilkan anime dengan nama franchise yang sama. Hal ini efektif untuk menghasilkan output terbaik
 
 """
 
@@ -426,7 +423,7 @@ print(f"Menggunakan {len(df_subset)} rating untuk melatih model setelah sampling
 
 """
 
-> Mengambil sample data sebanyak 500.000, karena menurut saya sangat pas untuk proses training data.
+> Mengambil 500.000 sampel dari dataset rating untuk meningkatkan efisiensi pemrosesan model.
 
 """
 
@@ -440,17 +437,22 @@ print("Data berhasil dimuat ke format Surprise.")
 
 """
 
-> Mengubah data menjadi format surprise untuk pemodelan sistem rekomendasi
+> Mengubah data menjadi format surprise yang akan digunakan untuk pemodelan sistem rekomendasi. Mendefinisikan rating sebagai 1-10. Format ini juga memudahkan evaluasi model, seperti melakukan cross-validation dan menghitung metrik evaluasi yang diperlukan.
 
 """
-
-# Splitting dan training data
 
 # Split data
 print("Membagi data menjadi training set dan testing set...")
 trainset, testset = train_test_split(data, test_size=0.20, random_state=42)
 
+"""
+
+> Melakukan splitting data dengan 20% data dialokasikan untuk pengujian.
+
+"""
+
 # Training model
+
 print("Melatih model pada training set...")
 algo = SVD(n_factors=100, n_epochs=20, random_state=42)
 algo.fit(trainset)
@@ -469,8 +471,7 @@ print(f"MAE (Mean Absolute Error):      {mae}")
 
 """
 
-> Melakukan splitting data dan training data pada model
-
+> SVD akan melakukan pelatihan dengan parameter sederhana. Setelah pelatihan akan menghasilkan skor evaluasi yang bisa digunakan untuk patokan melakukan Hyperparameter atau tidak.
 """
 
 # Hyperparameter tuning menggunakan GridSearchCV
@@ -508,7 +509,7 @@ print(gs.best_params['rmse'])
 
 """
 
-> Menggunakan hyperparameter tuning untuk mendapatkan parameter terbaik untuk training model
+> Menggunakan hyperparameter tuning untuk mendapatkan parameter terbaik untuk training model SVD menggunakan GridSearchCV. Parameter yang akan diuji didefinisikan dalam dictionary, termasuk jumlah faktor, jumlah epoch, learning rate, dan regularisasi. Hyperparameter tuning berguna sekali untuk mendapatkan parameter terbaik agar model mendapatkan hasil dengan maksimal.
 
 """
 
@@ -530,7 +531,7 @@ print("Model final berhasil dilatih!")
 
 """
 
-> Training model dengan menggunakan parameter terbaik dari Hyperparameter tuning
+> Training model menggunakan algoritma SVD dengan menggunakan parameter terbaik dari Hyperparameter tuning GridSearchCV.
 
 """
 
@@ -548,12 +549,15 @@ print("\nSebagai perbandingan:")
 
 try:
     print(f"Testing RMSE (dari GridSearchCV): {gs.best_score['rmse']:.4f}")
+    print(f"Testing MAE (dari GridSearchCV): {gs.best_score['mae']:.4f}")
 except NameError:
     print("Objek GridSearchCV 'gs' tidak ditemukan untuk perbandingan.")
 
 """
 
-> Evaluasi dan membandingkan model dengan dan tanpa Hyperparameter
+> Evaluasi dan membandingkan model dengan dan tanpa Hyperparameter. Terlihat hasil yang lumayan signifikan, yang sebelumnya training RMSE menghasilkan nilai 1.3122, setelah melakukan Hyperparameter tuning menggunakan GridSearchCV menghasilkan nilai 1.2849. Nilai RMSE yang lebih rendah menunjukkan performa yang lebih baik.
+
+
 
 """
 
@@ -619,8 +623,104 @@ except ValueError:
 except Exception as e:
     print(f"\n[ERROR] Terjadi sebuah kesalahan: {e}")
 
+"""> Menampilkan hasil rekomendasi 20 anime berdasarkan rekomendasi histori user, dan menambahkan fungsi input dari user untuk memudahkan melihat rekomendasi setiap user. Membuat fungsi agar input hanya dapat diisi dengan angka, dan jika selain angka akan error.
+
+### **EVALUASI MODEL**
+
+#### Content-Based Filtering
 """
 
-> Menampilkan hasil rekomendasi dengan input dari user. Membuat fungsi agar input hanya dapat diisi dengan angka, dan jika selain angka akan error.
+# Evaluasi Model Content-Based Filtering
 
-"""
+# Persiapan Data dan Pemetaan
+# Tentukan ambang batas rating dan K
+RATING_THRESHOLD = 8.0
+K = 10
+
+# Buat pemetaan dari anime_id ke indeks internal matriks
+id_map = pd.Series(anime_filtered.index, index=anime_filtered['anime_id'])
+
+# Ambil sampel pengguna aktif untuk dievaluasi
+user_activity = rating_clean['user_id'].value_counts()
+active_users = user_activity[user_activity > 50].index.tolist()
+test_users = random.sample(active_users, 500) if len(active_users) > 500 else active_users
+
+print(f"Memulai evaluasi pada {len(test_users)} pengguna...")
+
+def get_top_k_similar_by_index(source_idx, k=10):
+    """Fungsi ringan untuk mendapatkan top-k rekomendasi berdasarkan indeks."""
+    # Mengambil skore matriks cosine_sim
+    sim_scores = list(enumerate(cosine_sim[source_idx]))
+    sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
+
+    # Ambil indeks dari K anime teratas
+    top_indices = [i[0] for i in sim_scores[1:k+1]]
+    return top_indices
+
+# Evaluasi
+precisions, recalls, f1_scores = [], [], []
+
+for user_id in tqdm(test_users, desc="Mengevaluasi Pengguna"):
+
+    # Dapatkan ID dari semua anime yang disukai pengguna
+    liked_anime_ids = rating_clean[(rating_clean['user_id'] == user_id) & (rating_clean['rating'] >= RATING_THRESHOLD)]['anime_id']
+    # Ubah ID anime menjadi indeks internal matriks
+    liked_indices = [id_map.get(anime_id) for anime_id in liked_anime_ids if anime_id in id_map]
+    liked_indices = [idx for idx in liked_indices if idx is not None]
+
+    if len(liked_indices) < 2:
+        continue
+
+    # Ambil satu sebagai umpan (source), sisanya sebagai jawaban (ground truth)
+    source_idx = random.choice(liked_indices)
+    ground_truth_indices = set(liked_indices) - {source_idx}
+
+    # Dapatkan rekomendasi
+    recommended_indices = set(get_top_k_similar_by_index(source_idx, k=K))
+
+    # Hitung metrik
+    hits = len(recommended_indices.intersection(ground_truth_indices))
+    precision = hits / K
+    recall = hits / len(ground_truth_indices)
+    f1 = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
+
+    precisions.append(precision)
+    recalls.append(recall)
+    f1_scores.append(f1)
+
+# Menampilkan hasil akhir
+avg_precision = np.mean(precisions) if precisions else 0
+avg_recall = np.mean(recalls) if recalls else 0
+avg_f1 = np.mean(f1_scores) if f1_scores else 0
+
+print("\n--- Hasil Evaluasi ---")
+print(f"Metrik dievaluasi pada {len(precisions)} pengguna dengan K={K}")
+print(f"Rata-rata Precision@{K}: {avg_precision:.4f}")
+print(f"Rata-rata Recall@{K}:    {avg_recall:.4f}")
+print(f"Rata-rata F1-score@{K}:  {avg_f1:.4f}")
+
+"""#### Collaborative Filtering"""
+
+# Hitung skornya
+training_rmse = accuracy.rmse(predictions, verbose=False)
+training_mae = accuracy.mae(predictions, verbose=False)
+
+# 2. Siapkan hasil dari GridSearchCV yang sudah disimpan di objek 'gs'
+tuned_rmse = gs.best_score['rmse']
+tuned_mae = gs.best_score['mae']
+
+
+# --- Tampilkan Perbandingan ---
+
+print("\n" + "="*55)
+print("--- Perbandingan Skor Model Collaborative Filtering ---")
+print("="*55)
+
+print("\nSkor dari Model Final (Dilatih pada Semua Data):")
+print(f"  - Training RMSE: {training_rmse:.4f}")
+print(f"  - Training MAE:  {training_mae:.4f}")
+
+print("\nSkor dari Hasil Hyperparameter Tuning (GridSearchCV):")
+print(f"  - Validation RMSE: {tuned_rmse:.4f}")
+print(f"  - Validation MAE : {tuned_mae:.4f}")
+print("="*55)
